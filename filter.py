@@ -1,8 +1,5 @@
 import json
 import requests
-import re
-import time
-from bs4 import BeautifulSoup
 
 file_path = 'combinedJournalList.json'
 journalArray = []
