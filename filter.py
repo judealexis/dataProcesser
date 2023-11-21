@@ -1,5 +1,6 @@
 import json
 import requests
+import time
 
 file_path = 'combinedJournalList.json'
 journalArray = []
@@ -10,21 +11,28 @@ totalJournals = 0
 with open(file_path, 'r') as file:
     journalArray = json.load(file)
 
+batch = 0
+
 for x in journalArray:
     url = f"https://api.crossref.org/journals/{x}"
     rquest = requests.get(url)
 
     if rquest.status_code == 200:
+
+        if(batch >= 200):
+            print("Max Batch size, mandatory 30 second sleep")
+            batch = 0
+            time.sleep(30)
+
         request = rquest.json()
-        current_dois = request['message']['counts']['current-dois']
+        current_dois = request['message']['counts']['total-dois']
 
         totalArticles += int(current_dois)
         totalJournals += 1
+        batch += 1
 
-        if(current_dois >= 0):
-            validJournals.append(x)
-
-            print(current_dois)
+        validJournals.append(x)
+        print(current_dois)
 
 metrics = [totalArticles, totalJournals]
 
