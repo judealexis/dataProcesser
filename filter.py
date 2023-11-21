@@ -21,9 +21,10 @@ for x in journalArray:
         totalArticles += int(current_dois)
         totalJournals += 1
 
-        validJournals.append(x)
+        if(current_dois >= 0):
+            validJournals.append(x)
 
-        print(current_dois)
+            print(current_dois)
 
 metrics = [totalArticles, totalJournals]
 
